@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #06030d;
+  --color-ink2: #0c0718;
+  --color-violet-brand: #8b5cf6;
+  --color-violet-deep: #5b21b6;
+  --color-violet-glow: #a78bfa;
+  --color-silver: #d7dae3;
+  --color-silver-dim: #8f95a8;
+  --font-display: "Syncopate", sans-serif;
+  --font-tech: "Chakra Petch", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  --mx: 50%;
+  --my: -20%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #06030d;
+  color: #e7e8ee;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+::selection {
+  background: #8b5cf6;
+  color: #fff;
+}
+
+/* thin violet scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #06030d;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#5b21b6, #8b5cf6);
+}
+
+/* ---- text mask reveal plumbing (used by useMaskReveal) ---- */
+.st-line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+.st-line {
+  display: block;
+  will-change: transform;
+}
+[data-mask-root] {
+  opacity: 0;
+}
+
+/* ---- angular geometry derived from the W logo ---- */
+.clip-diag-b {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
+}
+.clip-diag-t {
+  clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
+}
+.clip-corner {
+  clip-path: polygon(0 0, calc(100% - 1.4rem) 0, 100% 1.4rem, 100% 100%, 1.4rem 100%, 0 calc(100% - 1.4rem));
+}
+.clip-notch {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.4rem), calc(100% - 1.4rem) 100%, 0 100%);
+}
+.clip-btn {
+  clip-path: polygon(0.75rem 0, 100% 0, calc(100% - 0.75rem) 100%, 0 100%);
+}
+.clip-portrait {
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+}
+.clip-shard {
+  clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+}
+
+/* ---- spotlight glow border for cards ---- */
+.spotlight {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: radial-gradient(
+      380px circle at var(--mx) var(--my),
+      rgba(167, 139, 250, 0.95),
+      rgba(148, 163, 184, 0.22) 45%,
+      rgba(255, 255, 255, 0.05) 70%
+    );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  clip-path: inherit;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(300px circle at var(--mx) var(--my), rgba(139, 92, 246, 0.16), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  clip-path: inherit;
+}
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+/* ---- outlined (stroke only) giant titles ---- */
+.outline-text {
+  -webkit-text-stroke: 1.5px rgba(215, 218, 227, 0.45);
+  color: transparent;
+}
+.outline-fill {
+  -webkit-text-stroke: 1.5px transparent;
+  background: linear-gradient(100deg, #ffffff 0%, #c4b5fd 45%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: linear-gradient(150deg, rgba(23, 14, 42, 0.85), rgba(10, 6, 20, 0.92));
+  backdrop-filter: blur(14px);
+}
+
+.violet-glow {
+  box-shadow: 0 0 60px -12px rgba(139, 92, 246, 0.6);
+}
+
+.grid-lines {
+  background-image: linear-gradient(rgba(139, 92, 246, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 40px -16px rgba(139, 92, 246, 0.7); }
+  50% { box-shadow: 0 0 78px -6px rgba(167, 139, 250, 0.85); }
+}
+.pulse-glow {
+  animation: pulseGlow 3.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.35) 50%, transparent 80%);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+/* hide native cursor when custom cursor is active (desktop only) */
+body.custom-cursor,
+body.custom-cursor * {
+  cursor: none !important;
+}
+@media (hover: none) {
+  body.custom-cursor,
+  body.custom-cursor * {
+    cursor: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer,
+  .pulse-glow {
+    animation-duration: 6s;
+  }
+}
